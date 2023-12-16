@@ -25,7 +25,6 @@ import math
 import requests
 import re
 import random
-import chromedriver_autoinstaller
 import datetime
 import numpy as np
 import pandas as pd
