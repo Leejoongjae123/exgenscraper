@@ -2035,7 +2035,9 @@ while True:
     timeNowString = datetime.datetime.now().strftime("%H%M")
     try:
         print("현재타임:",timeNowString,"예약타임:",timeCycle)
-        if timeNowString == timeCycle or firstFlag==True:
+        # if timeNowString == timeCycle or firstFlag==True:
+        if timeNowString == timeCycle:
+
             firstFlag=False
             # ---------------GA4 결과 가져오기
             print("ga4 조회중")
