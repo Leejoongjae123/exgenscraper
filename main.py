@@ -1,11 +1,6 @@
-import base64
-import io
 import json
 import re
 import time
-import urllib.request
-
-import requests
 import requests
 from bs4 import BeautifulSoup
 import requests
@@ -14,26 +9,15 @@ from firebase_admin import credentials
 from firebase_admin import db
 from firebase_admin import firestore
 from firebase_admin import storage
-from PIL import Image
 import os
 import random
 import openpyxl
 import pandas as pd
-from pyautogui import size
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 import subprocess
 import shutil
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from bs4 import BeautifulSoup
 import time
 import datetime
-import pyautogui
-import pyperclip
 import csv
 import sys
 import os
@@ -42,15 +26,7 @@ import requests
 import re
 import random
 import chromedriver_autoinstaller
-from PyQt5.QtWidgets import QWidget, QApplication, QTreeView, QFileSystemModel, QVBoxLayout, QPushButton, QInputDialog, \
-    QLineEdit, QMainWindow, QMessageBox, QFileDialog
-from PyQt5.QtCore import QCoreApplication
-from selenium.webdriver import ActionChains
-import numpy
 import datetime
-from window import Ui_MainWindow
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
 import numpy as np
 import pandas as pd
 import os
