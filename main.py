@@ -1694,364 +1694,642 @@ def DeleteAllImage():
         resp = s3.Object('exgen', key).delete()
 
 # ------------------------------------------------
-class Thread(QThread):
-    cnt = 0
-    user_signal = pyqtSignal(str)  # 사용자 정의 시그널 2 생성
+# class Thread(QThread):
+#     cnt = 0
+#     user_signal = pyqtSignal(str)  # 사용자 정의 시그널 2 생성
+#
+#     def __init__(self, parent, timeCycle):  # parent는 WndowClass에서 전달하는 self이다.(WidnowClass의 인스턴스)
+#         super().__init__(parent)
+#         self.parent = parent  # self.parent를 사용하여 WindowClass 위젯을 제어할 수 있다.
+#         self.timeCycle = timeCycle
+#
+#     def run(self):
+#         timePrev = 0
+#         InitFirebase()
+#         print("주기는:", self.timeCycle)
+#         while True:
+#
+#             timeNow = datetime.datetime.now().timestamp()
+#             timeNowString = datetime.datetime.now().strftime("%H%M")
+#             try:
+#                 print("현재타임:",timeNowString,"예약타임:",self.timeCycle)
+#                 if timeNowString == self.timeCycle:
+#                 # if True:
+#                     # ---------------GA4 결과 가져오기
+#                     print("ga4 조회중")
+#                     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'credential.json'
+#                     property_id = '378226211'
+#                     client = BetaAnalyticsDataClient()
+#                     start_date = datetime.datetime.now() - datetime.timedelta(days=5)
+#                     start_date_string = start_date.strftime("%Y-%m-%d")
+#                     request = RunReportRequest(
+#                         property='properties/' + property_id,
+#                         dimensions=[Dimension(name="day")],
+#                         metrics=[Metric(name="activeUsers")],
+#                         order_bys=[OrderBy(dimension={'dimension_name': 'day'})],
+#                         date_ranges=[DateRange(start_date=start_date_string, end_date="today")],
+#                     )
+#                     # print(request)
+#                     print("request완료")
+#                     output_df = format_report(request, client)
+#                     print(output_df)
+#                     visitorsList = output_df['activeUsers'].tolist()
+#                     newData = []
+#                     if len(visitorsList) == 6:
+#                         dateConstant = 5
+#                     else:
+#                         dateConstant = 4
+#                     for index, visitorsElem in enumerate(visitorsList):
+#                         targetTime = datetime.datetime.now() - datetime.timedelta(days=(dateConstant - index))
+#                         targetTimeString = targetTime.strftime("%m/%d")
+#                         data = {'name': targetTimeString, 'visitors': visitorsElem}
+#                         newData.append(data)
+#                     print(newData)
+#                     SaveFirebaseVisitors(newData)
+#
+#                     # --------------REV230719 토큰저장---------------
+#
+#                     # regiToken = 'ZJ1kCQALAAET_cVonhTo2P2DT5W4'
+#                     # SaveFirebaseRegiToken(regiToken)
+#                     # print("토큰저장완료")
+#
+#                     # -----------------------------------------
+#
+#                     timePrev = datetime.datetime.now().timestamp()
+#                     text = "크롤링 시작 / {}".format(timeNowString)
+#                     self.user_signal.emit(text)
+#
+#                     try:
+#                         dataList1 = GetGangNam()  # 강남맛집 검색
+#                         text = "강남맛집 크롤링 완료"
+#                     except:
+#                         dataList1 = []
+#                         text = "강남맛집 크롤링 실패"
+#
+#                     print(text)
+#                     self.user_signal.emit(text)
+#
+#                     try:
+#                         dataList2 = GetNolowa()  # 놀러와 검색
+#                         text = "놀러와체험단 크롤링 완료"
+#                     except:
+#                         dataList2 = []
+#                         text = "놀러와체험단 크롤링 실패"
+#
+#                     print(text)
+#                     self.user_signal.emit(text)
+#
+#                     try:
+#                         dataList3 = GetDinnerQueen()  # 디너의여왕 검색
+#                         text = "디너의여왕 크롤링 완료"
+#                     except:
+#                         dataList3 = []
+#                         text = "디너의여왕 크롤링 실패"
+#
+#                     print(text)
+#                     self.user_signal.emit(text)
+#
+#                     try:
+#                         dataList4 = GetDailyView()  # 데일리뷰 검색
+#                         text = "데일리뷰 크롤링 완료"
+#                     except:
+#                         dataList4 = []
+#                         text = "데일리뷰 크롤링 실패"
+#                     print(text)
+#                     self.user_signal.emit(text)
+#
+#                     # ===============6월21일 사이트5개 추가Start
+#
+#                     try:
+#                         dataList5 = GetGaBoJa()
+#                         text = "가보자체험단 크롤링 완료"
+#                     except:
+#                         dataList5 = []
+#                         text = "가보자체험단 크롤링 실패"
+#                     print(text)
+#                     self.user_signal.emit(text)
+#
+#                     try:
+#                         dataList6 = GetMrBlog()
+#                         text = "미스터블로그 크롤링 완료"
+#                     except:
+#                         dataList6 = []
+#                         text = "미스터블로그 크롤링 실패"
+#                     print(text)
+#                     self.user_signal.emit(text)
+#
+#                     try:
+#                         dataList7 = GetOhMyBlog()
+#                         text = "오마이블로그 크롤링 완료"
+#                     except:
+#                         dataList7 = []
+#                         text = "오마이블로그 크롤링 실패"
+#                     print(text)
+#                     self.user_signal.emit(text)
+#
+#                     try:
+#                         dataList8 = GetSeoulObba()
+#                         text = "서울오빠 크롤링 완료"
+#                     except:
+#                         dataList8 = []
+#                         text = "서울오빠 크롤링 실패"
+#                     print(text)
+#                     self.user_signal.emit(text)
+#
+#                     try:
+#                         dataList9 = GetRevu()
+#                         text = "레뷰 크롤링 완료"
+#                     except:
+#                         dataList9 = []
+#                         text = "레뷰 크롤링 실패"
+#                     print(text)
+#                     self.user_signal.emit(text)
+#
+#                     # ===============6월21일 사이트5개 추가End
+#
+#                     # ==============7월14일 4개 추가
+#
+#                     try:
+#                         dataList10 = GetReviewPlace()
+#                         text = "리뷰플레이스 크롤링 완료"
+#                     except:
+#                         dataList10 = []
+#                         text = "리뷰플레이스 크롤링 실패"
+#                     print(text)
+#                     self.user_signal.emit(text)
+#                     try:
+#                         dataList11 = GetChvu()
+#                         text = "체험뷰 크롤링 완료"
+#                     except:
+#                         dataList11 = []
+#                         text = "체험뷰 크롤링 실패"
+#                     print(text)
+#                     self.user_signal.emit(text)
+#
+#                     try:
+#                         dataList12 = GetReviewNote()
+#                         text = "리뷰노트 크롤링 완료"
+#                     except:
+#                         dataList12 = []
+#                         text = "리뷰노트 크롤링 실패"
+#                     print(text)
+#                     self.user_signal.emit(text)
+#                     try:
+#                         dataList13 = GetCloudView()
+#                         text = "클라우드뷰 크롤링 완료"
+#                     except:
+#                         dataList13 = []
+#                         text = "클라우드뷰 크롤링 실패"
+#                     print(text)
+#                     self.user_signal.emit(text)
+#
+#                     try:
+#                         dataList14 = GetTble()
+#                         text = "티블 크롤링 완료"
+#                     except:
+#                         dataList14 = []
+#                         text = "티블 크롤링 실패"
+#                     print(text)
+#                     self.user_signal.emit(text)
+#
+#                     totalList = dataList1 + dataList2 + dataList3 + dataList4 + dataList5 + dataList6 + dataList7 + dataList8 + dataList9 + dataList10 + dataList11 + dataList12 + dataList13 + dataList14  # 검색결과를 모두 합친다.
+#
+#                     with open('totalList.json', 'w',encoding='utf-8-sig') as f:
+#                         json.dump(totalList, f, indent=2,ensure_ascii=False)
+#
+#
+#
+#                     with open('totalList.json', 'w') as f:
+#                         json.dump(totalList, f, indent=2)
+#
+#                     text = "전체 글 갯수:{}".format(len(totalList))
+#                     print(text)
+#                     self.user_signal.emit(text)
+#
+#                     print("지우기 시작")
+#                     GetRemove()  # 변동부
+#                     print("지우기 완료")
+#
+#                     text="지우기완료"
+#                     self.user_signal.emit(text)
+#
+#                     print("데이타저장하기")
+#                     for i in range(0, len(totalList), 200):
+#                         while True:
+#                             try:
+#                                 splitList=totalList[i:i + 200]
+#                                 AddProducts(splitList)
+#                                 break
+#                             except:
+#                                 print("에러발생")
+#                         time.sleep(0.2)
+#                         print("전송완료")
+#                     text = "데이타 저장 완료"
+#                     print(text)
+#                     self.user_signal.emit(text)
+#
+#                     # ====================그림파일 저장부============
+#                     text = "그림 다운로드 중..."
+#                     print(text)
+#                     self.user_signal.emit(text)
+#                     print("그림파일 가져오기")
+#                     firstFlag = True
+#                     for index, totalElem in enumerate(totalList):
+#
+#                         filename = "{}.png".format(totalElem['myImage'])
+#                         # print("{}번째 파일".format(index), filename)
+#
+#                         if firstFlag == True:
+#                             # InitFirebaseStorage() #테스트에서만 켬
+#                             bucketList = GetFileList()
+#
+#                             # pprint.pprint(bucketList)
+#                             preGetList = []
+#                             for bucketElem in bucketList:
+#                                 # print('filename:',filename)
+#                                 # print(str(bucketElem))
+#                                 data = str(bucketElem)
+#                                 preGetList.append(data)
+#                             # print('preGetList:', preGetList)
+#                             # print("그림갯수:", len(preGetList))
+#                             firstFlag = False
+#                         # print('filename:', filename)
+#                         skip_flag = False
+#                         for preGetElem in preGetList:
+#                             if preGetElem.find(filename) >= 0:
+#                                 print("그림이미있음".format(filename))
+#                                 skip_flag = True
+#                                 break
+#                         if skip_flag == True:
+#                             continue
+#
+#                         try:
+#                             headers = {
+#                                 "User-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"}
+#                             imageUrl = totalElem['imageUrl']
+#                             if imageUrl.find("no_img") >= 0 or len(imageUrl) == 0:
+#                                 continue
+#                             print('{}번째 imageUrl:'.format(index), imageUrl)
+#                             image_res = requests.get(imageUrl, headers=headers,timeout=10)  # 그림파일 저장
+#                             image_res.raise_for_status()
+#
+#                             with open(filename, "wb") as f:
+#                                 f.write(image_res.content)  # 그림파일 각각 저장
+#                             text = "그림파일 저장중..."
+#                             print(text)
+#                             # SaveFirebaseStorage(filename, firstFlag)
+#                             UploadImageToS3(filename)
+#                             print('그림삭제')
+#                             # 파일이 존재하는지 확인 후 삭제
+#                             if os.path.exists(filename):
+#                                 os.remove(filename)
+#                                 print(f"File {filename} has been deleted.")
+#                             else:
+#                                 print(f"File {filename} does not exist.")
+#                             time.sleep(random.randint(5, 10) * 0.1)
+#
+#                         except:
+#                             print("에러로건너뜀")
+#                             time.sleep(1)
+#
+#                         print("=====================================")
+#                     text = "그림 다운로드 완료"
+#                     print(text)
+#                     self.user_signal.emit(text)
+#                 # ===================================================================
+#                 else:
+#                     text = "대기중..."
+#                     self.user_signal.emit(text)
+#
+#
+#             except:
+#                 print("에러로 한텀쉬기")
+#                 time.sleep(60 * 10)
+#             time.sleep(10)
+#
+#     def stop(self):
+#         pass
+#
+#
+# class Example(QMainWindow, Ui_MainWindow):
+#     def __init__(self):
+#         super().__init__()
+#         self.path = "C:"
+#         self.index = None
+#         self.setupUi(self)
+#         self.setSlot()
+#         self.show()
+#         QApplication.processEvents()
+#         self.timeEdit.setTime(QTime(3,0))
+#
+#     def start(self):
+#         print('11')
+#         self.timeCycle=str(self.timeEdit.time().hour())+"_"+str(self.timeEdit.time().minute())
+#
+#         self.timeCycle=datetime.datetime.strptime(self.timeCycle,"%H_%M").strftime("%H%M")
+#         print('self.timeCycle:',self.timeCycle)
+#         self.x = Thread(self, self.timeCycle)
+#         self.x.user_signal.connect(self.slot1)  # 사용자 정의 시그널2 슬롯 Connect
+#         self.x.start()
+#
+#     def slot1(self, data1):  # 사용자 정의 시그널1에 connect된 function
+#         self.textEdit.append(str(data1))
+#
+#     def setSlot(self):
+#         pass
+#
+#     def setIndex(self, index):
+#         pass
+#
+#     def quit(self):
+#         QCoreApplication.instance().quit()
+#
+#
+# app = QApplication([])
+# ex = Example()
+# sys.exit(app.exec_())
 
-    def __init__(self, parent, timeCycle):  # parent는 WndowClass에서 전달하는 self이다.(WidnowClass의 인스턴스)
-        super().__init__(parent)
-        self.parent = parent  # self.parent를 사용하여 WindowClass 위젯을 제어할 수 있다.
-        self.timeCycle = timeCycle
+timeCycle="0100"
+timePrev = 0
+InitFirebase()
+print("주기는:", timeCycle)
+firstFlag=True
+while True:
+    timeNow = datetime.datetime.now().timestamp()
+    timeNowString = datetime.datetime.now().strftime("%H%M")
+    try:
+        print("현재타임:",timeNowString,"예약타임:",timeCycle)
+        if timeNowString == timeCycle or firstFlag==True:
+            firstFlag=False
+            # ---------------GA4 결과 가져오기
+            print("ga4 조회중")
+            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'credential.json'
+            property_id = '378226211'
+            client = BetaAnalyticsDataClient()
+            start_date = datetime.datetime.now() - datetime.timedelta(days=5)
+            start_date_string = start_date.strftime("%Y-%m-%d")
+            request = RunReportRequest(
+                property='properties/' + property_id,
+                dimensions=[Dimension(name="day")],
+                metrics=[Metric(name="activeUsers")],
+                order_bys=[OrderBy(dimension={'dimension_name': 'day'})],
+                date_ranges=[DateRange(start_date=start_date_string, end_date="today")],
+            )
+            # print(request)
+            print("request완료")
+            output_df = format_report(request, client)
+            print(output_df)
+            visitorsList = output_df['activeUsers'].tolist()
+            newData = []
+            if len(visitorsList) == 6:
+                dateConstant = 5
+            else:
+                dateConstant = 4
+            for index, visitorsElem in enumerate(visitorsList):
+                targetTime = datetime.datetime.now() - datetime.timedelta(days=(dateConstant - index))
+                targetTimeString = targetTime.strftime("%m/%d")
+                data = {'name': targetTimeString, 'visitors': visitorsElem}
+                newData.append(data)
+            print(newData)
+            SaveFirebaseVisitors(newData)
 
-    def run(self):
-        print("222")
+            # --------------REV230719 토큰저장---------------
 
-        timePrev = 0
-        InitFirebase()
-        print("주기는:", self.timeCycle)
-        while True:
+            # regiToken = 'ZJ1kCQALAAET_cVonhTo2P2DT5W4'
+            # SaveFirebaseRegiToken(regiToken)
+            # print("토큰저장완료")
 
-            timeNow = datetime.datetime.now().timestamp()
-            timeNowString = datetime.datetime.now().strftime("%H%M")
+            # -----------------------------------------
+
+            timePrev = datetime.datetime.now().timestamp()
+            text = "크롤링 시작 / {}".format(timeNowString)
+
             try:
-                print("현재타임:",timeNowString,"예약타임:",self.timeCycle)
-                if timeNowString == self.timeCycle:
-                # if True:
-                    # ---------------GA4 결과 가져오기
-                    print("ga4 조회중")
-                    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'credential.json'
-                    property_id = '378226211'
-                    client = BetaAnalyticsDataClient()
-                    start_date = datetime.datetime.now() - datetime.timedelta(days=5)
-                    start_date_string = start_date.strftime("%Y-%m-%d")
-                    request = RunReportRequest(
-                        property='properties/' + property_id,
-                        dimensions=[Dimension(name="day")],
-                        metrics=[Metric(name="activeUsers")],
-                        order_bys=[OrderBy(dimension={'dimension_name': 'day'})],
-                        date_ranges=[DateRange(start_date=start_date_string, end_date="today")],
-                    )
-                    # print(request)
-                    print("request완료")
-                    output_df = format_report(request, client)
-                    print(output_df)
-                    visitorsList = output_df['activeUsers'].tolist()
-                    newData = []
-                    if len(visitorsList) == 6:
-                        dateConstant = 5
-                    else:
-                        dateConstant = 4
-                    for index, visitorsElem in enumerate(visitorsList):
-                        targetTime = datetime.datetime.now() - datetime.timedelta(days=(dateConstant - index))
-                        targetTimeString = targetTime.strftime("%m/%d")
-                        data = {'name': targetTimeString, 'visitors': visitorsElem}
-                        newData.append(data)
-                    print(newData)
-                    SaveFirebaseVisitors(newData)
-
-                    # --------------REV230719 토큰저장---------------
-
-                    # regiToken = 'ZJ1kCQALAAET_cVonhTo2P2DT5W4'
-                    # SaveFirebaseRegiToken(regiToken)
-                    # print("토큰저장완료")
-
-                    # -----------------------------------------
-
-                    timePrev = datetime.datetime.now().timestamp()
-                    text = "크롤링 시작 / {}".format(timeNowString)
-                    self.user_signal.emit(text)
-
-                    try:
-                        dataList1 = GetGangNam()  # 강남맛집 검색
-                        text = "강남맛집 크롤링 완료"
-                    except:
-                        dataList1 = []
-                        text = "강남맛집 크롤링 실패"
-
-                    print(text)
-                    self.user_signal.emit(text)
-
-                    try:
-                        dataList2 = GetNolowa()  # 놀러와 검색
-                        text = "놀러와체험단 크롤링 완료"
-                    except:
-                        dataList2 = []
-                        text = "놀러와체험단 크롤링 실패"
-
-                    print(text)
-                    self.user_signal.emit(text)
-
-                    try:
-                        dataList3 = GetDinnerQueen()  # 디너의여왕 검색
-                        text = "디너의여왕 크롤링 완료"
-                    except:
-                        dataList3 = []
-                        text = "디너의여왕 크롤링 실패"
-
-                    print(text)
-                    self.user_signal.emit(text)
-
-                    try:
-                        dataList4 = GetDailyView()  # 데일리뷰 검색
-                        text = "데일리뷰 크롤링 완료"
-                    except:
-                        dataList4 = []
-                        text = "데일리뷰 크롤링 실패"
-                    print(text)
-                    self.user_signal.emit(text)
-
-                    # ===============6월21일 사이트5개 추가Start
-
-                    try:
-                        dataList5 = GetGaBoJa()
-                        text = "가보자체험단 크롤링 완료"
-                    except:
-                        dataList5 = []
-                        text = "가보자체험단 크롤링 실패"
-                    print(text)
-                    self.user_signal.emit(text)
-
-                    try:
-                        dataList6 = GetMrBlog()
-                        text = "미스터블로그 크롤링 완료"
-                    except:
-                        dataList6 = []
-                        text = "미스터블로그 크롤링 실패"
-                    print(text)
-                    self.user_signal.emit(text)
-
-                    try:
-                        dataList7 = GetOhMyBlog()
-                        text = "오마이블로그 크롤링 완료"
-                    except:
-                        dataList7 = []
-                        text = "오마이블로그 크롤링 실패"
-                    print(text)
-                    self.user_signal.emit(text)
-
-                    try:
-                        dataList8 = GetSeoulObba()
-                        text = "서울오빠 크롤링 완료"
-                    except:
-                        dataList8 = []
-                        text = "서울오빠 크롤링 실패"
-                    print(text)
-                    self.user_signal.emit(text)
-
-                    try:
-                        dataList9 = GetRevu()
-                        text = "레뷰 크롤링 완료"
-                    except:
-                        dataList9 = []
-                        text = "레뷰 크롤링 실패"
-                    print(text)
-                    self.user_signal.emit(text)
-
-                    # ===============6월21일 사이트5개 추가End
-
-                    # ==============7월14일 4개 추가
-
-                    try:
-                        dataList10 = GetReviewPlace()
-                        text = "리뷰플레이스 크롤링 완료"
-                    except:
-                        dataList10 = []
-                        text = "리뷰플레이스 크롤링 실패"
-                    print(text)
-                    self.user_signal.emit(text)
-                    try:
-                        dataList11 = GetChvu()
-                        text = "체험뷰 크롤링 완료"
-                    except:
-                        dataList11 = []
-                        text = "체험뷰 크롤링 실패"
-                    print(text)
-                    self.user_signal.emit(text)
-
-                    try:
-                        dataList12 = GetReviewNote()
-                        text = "리뷰노트 크롤링 완료"
-                    except:
-                        dataList12 = []
-                        text = "리뷰노트 크롤링 실패"
-                    print(text)
-                    self.user_signal.emit(text)
-                    try:
-                        dataList13 = GetCloudView()
-                        text = "클라우드뷰 크롤링 완료"
-                    except:
-                        dataList13 = []
-                        text = "클라우드뷰 크롤링 실패"
-                    print(text)
-                    self.user_signal.emit(text)
-
-                    try:
-                        dataList14 = GetTble()
-                        text = "티블 크롤링 완료"
-                    except:
-                        dataList14 = []
-                        text = "티블 크롤링 실패"
-                    print(text)
-                    self.user_signal.emit(text)
-
-                    totalList = dataList1 + dataList2 + dataList3 + dataList4 + dataList5 + dataList6 + dataList7 + dataList8 + dataList9 + dataList10 + dataList11 + dataList12 + dataList13 + dataList14  # 검색결과를 모두 합친다.
-
-                    with open('totalList.json', 'w',encoding='utf-8-sig') as f:
-                        json.dump(totalList, f, indent=2,ensure_ascii=False)
-
-
-
-                    with open('totalList.json', 'w') as f:
-                        json.dump(totalList, f, indent=2)
-
-                    text = "전체 글 갯수:{}".format(len(totalList))
-                    print(text)
-                    self.user_signal.emit(text)
-
-                    print("지우기 시작")
-                    GetRemove()  # 변동부
-                    print("지우기 완료")
-
-                    text="지우기완료"
-                    self.user_signal.emit(text)
-
-                    print("데이타저장하기")
-                    for i in range(0, len(totalList), 200):
-                        while True:
-                            try:
-                                splitList=totalList[i:i + 200]
-                                AddProducts(splitList)
-                                break
-                            except:
-                                print("에러발생")
-                        time.sleep(0.2)
-                        print("전송완료")
-                    text = "데이타 저장 완료"
-                    print(text)
-                    self.user_signal.emit(text)
-
-                    # ====================그림파일 저장부============
-                    text = "그림 다운로드 중..."
-                    print(text)
-                    self.user_signal.emit(text)
-                    print("그림파일 가져오기")
-                    firstFlag = True
-                    for index, totalElem in enumerate(totalList):
-
-                        filename = "{}.png".format(totalElem['myImage'])
-                        # print("{}번째 파일".format(index), filename)
-
-                        if firstFlag == True:
-                            # InitFirebaseStorage() #테스트에서만 켬
-                            bucketList = GetFileList()
-
-                            # pprint.pprint(bucketList)
-                            preGetList = []
-                            for bucketElem in bucketList:
-                                # print('filename:',filename)
-                                # print(str(bucketElem))
-                                data = str(bucketElem)
-                                preGetList.append(data)
-                            # print('preGetList:', preGetList)
-                            # print("그림갯수:", len(preGetList))
-                            firstFlag = False
-                        # print('filename:', filename)
-                        skip_flag = False
-                        for preGetElem in preGetList:
-                            if preGetElem.find(filename) >= 0:
-                                print("그림이미있음".format(filename))
-                                skip_flag = True
-                                break
-                        if skip_flag == True:
-                            continue
-
-                        try:
-                            headers = {
-                                "User-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"}
-                            imageUrl = totalElem['imageUrl']
-                            if imageUrl.find("no_img") >= 0 or len(imageUrl) == 0:
-                                continue
-                            print('{}번째 imageUrl:'.format(index), imageUrl)
-                            image_res = requests.get(imageUrl, headers=headers,timeout=10)  # 그림파일 저장
-                            image_res.raise_for_status()
-
-                            with open(filename, "wb") as f:
-                                f.write(image_res.content)  # 그림파일 각각 저장
-                            text = "그림파일 저장중..."
-                            print(text)
-                            # SaveFirebaseStorage(filename, firstFlag)
-                            UploadImageToS3(filename)
-                            print('그림삭제')
-                            # 파일이 존재하는지 확인 후 삭제
-                            if os.path.exists(filename):
-                                os.remove(filename)
-                                print(f"File {filename} has been deleted.")
-                            else:
-                                print(f"File {filename} does not exist.")
-                            time.sleep(random.randint(5, 10) * 0.1)
-
-                        except:
-                            print("에러로건너뜀")
-                            time.sleep(1)
-
-                        print("=====================================")
-                    text = "그림 다운로드 완료"
-                    print(text)
-                    self.user_signal.emit(text)
-                # ===================================================================
-                else:
-                    text = "대기중..."
-                    self.user_signal.emit(text)
-
-
+                dataList1 = GetGangNam()  # 강남맛집 검색
+                text = "강남맛집 크롤링 완료"
             except:
-                print("에러로 한텀쉬기")
-                time.sleep(60 * 10)
-            time.sleep(10)
+                dataList1 = []
+                text = "강남맛집 크롤링 실패"
 
-    def stop(self):
-        pass
+            print(text)
+
+            try:
+                dataList2 = GetNolowa()  # 놀러와 검색
+                text = "놀러와체험단 크롤링 완료"
+            except:
+                dataList2 = []
+                text = "놀러와체험단 크롤링 실패"
+
+            print(text)
+
+            try:
+                dataList3 = GetDinnerQueen()  # 디너의여왕 검색
+                text = "디너의여왕 크롤링 완료"
+            except:
+                dataList3 = []
+                text = "디너의여왕 크롤링 실패"
+
+            print(text)
+
+            try:
+                dataList4 = GetDailyView()  # 데일리뷰 검색
+                text = "데일리뷰 크롤링 완료"
+            except:
+                dataList4 = []
+                text = "데일리뷰 크롤링 실패"
+            print(text)
+
+            # ===============6월21일 사이트5개 추가Start
+
+            try:
+                dataList5 = GetGaBoJa()
+                text = "가보자체험단 크롤링 완료"
+            except:
+                dataList5 = []
+                text = "가보자체험단 크롤링 실패"
+            print(text)
+
+            try:
+                dataList6 = GetMrBlog()
+                text = "미스터블로그 크롤링 완료"
+            except:
+                dataList6 = []
+                text = "미스터블로그 크롤링 실패"
+            print(text)
+
+            try:
+                dataList7 = GetOhMyBlog()
+                text = "오마이블로그 크롤링 완료"
+            except:
+                dataList7 = []
+                text = "오마이블로그 크롤링 실패"
+            print(text)
+
+            try:
+                dataList8 = GetSeoulObba()
+                text = "서울오빠 크롤링 완료"
+            except:
+                dataList8 = []
+                text = "서울오빠 크롤링 실패"
+            print(text)
+
+            try:
+                dataList9 = GetRevu()
+                text = "레뷰 크롤링 완료"
+            except:
+                dataList9 = []
+                text = "레뷰 크롤링 실패"
+            print(text)
+
+            # ===============6월21일 사이트5개 추가End
+
+            # ==============7월14일 4개 추가
+
+            try:
+                dataList10 = GetReviewPlace()
+                text = "리뷰플레이스 크롤링 완료"
+            except:
+                dataList10 = []
+                text = "리뷰플레이스 크롤링 실패"
+            print(text)
+            try:
+                dataList11 = GetChvu()
+                text = "체험뷰 크롤링 완료"
+            except:
+                dataList11 = []
+                text = "체험뷰 크롤링 실패"
+            print(text)
+
+            try:
+                dataList12 = GetReviewNote()
+                text = "리뷰노트 크롤링 완료"
+            except:
+                dataList12 = []
+                text = "리뷰노트 크롤링 실패"
+            print(text)
+            try:
+                dataList13 = GetCloudView()
+                text = "클라우드뷰 크롤링 완료"
+            except:
+                dataList13 = []
+                text = "클라우드뷰 크롤링 실패"
+            print(text)
+
+            try:
+                dataList14 = GetTble()
+                text = "티블 크롤링 완료"
+            except:
+                dataList14 = []
+                text = "티블 크롤링 실패"
+            print(text)
+
+            totalList = dataList1 + dataList2 + dataList3 + dataList4 + dataList5 + dataList6 + dataList7 + dataList8 + dataList9 + dataList10 + dataList11 + dataList12 + dataList13 + dataList14  # 검색결과를 모두 합친다.
+
+            with open('totalList.json', 'w',encoding='utf-8-sig') as f:
+                json.dump(totalList, f, indent=2,ensure_ascii=False)
+
+            with open('totalList.json', 'w') as f:
+                json.dump(totalList, f, indent=2)
+
+            text = "전체 글 갯수:{}".format(len(totalList))
+            print(text)
+
+            print("지우기 시작")
+            GetRemove()  # 변동부
+            print("지우기 완료")
+
+            text="지우기완료"
+
+            print("데이타저장하기")
+            for i in range(0, len(totalList), 200):
+                while True:
+                    try:
+                        splitList=totalList[i:i + 200]
+                        AddProducts(splitList)
+                        break
+                    except:
+                        print("에러발생")
+                time.sleep(0.2)
+                print("전송완료")
+            text = "데이타 저장 완료"
+            print(text)
+
+            # ====================그림파일 저장부============
+            text = "그림 다운로드 중..."
+            print(text)
+            print("그림파일 가져오기")
+            firstFlag = True
+            for index, totalElem in enumerate(totalList):
+
+                filename = "{}.png".format(totalElem['myImage'])
+                # print("{}번째 파일".format(index), filename)
+
+                if firstFlag == True:
+                    # InitFirebaseStorage() #테스트에서만 켬
+                    bucketList = GetFileList()
+
+                    # pprint.pprint(bucketList)
+                    preGetList = []
+                    for bucketElem in bucketList:
+                        # print('filename:',filename)
+                        # print(str(bucketElem))
+                        data = str(bucketElem)
+                        preGetList.append(data)
+                    # print('preGetList:', preGetList)
+                    # print("그림갯수:", len(preGetList))
+                    firstFlag = False
+                # print('filename:', filename)
+                skip_flag = False
+                for preGetElem in preGetList:
+                    if preGetElem.find(filename) >= 0:
+                        print("그림이미있음".format(filename))
+                        skip_flag = True
+                        break
+                if skip_flag == True:
+                    continue
+
+                try:
+                    headers = {
+                        "User-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"}
+                    imageUrl = totalElem['imageUrl']
+                    if imageUrl.find("no_img") >= 0 or len(imageUrl) == 0:
+                        continue
+                    print('{}번째 imageUrl:'.format(index), imageUrl)
+                    image_res = requests.get(imageUrl, headers=headers,timeout=10)  # 그림파일 저장
+                    image_res.raise_for_status()
+
+                    with open(filename, "wb") as f:
+                        f.write(image_res.content)  # 그림파일 각각 저장
+                    text = "그림파일 저장중..."
+                    print(text)
+                    # SaveFirebaseStorage(filename, firstFlag)
+                    UploadImageToS3(filename)
+                    print('그림삭제')
+                    # 파일이 존재하는지 확인 후 삭제
+                    if os.path.exists(filename):
+                        os.remove(filename)
+                        print(f"File {filename} has been deleted.")
+                    else:
+                        print(f"File {filename} does not exist.")
+                    time.sleep(random.randint(5, 10) * 0.1)
+
+                except:
+                    print("에러로건너뜀")
+                    time.sleep(1)
+
+                print("=====================================")
+            text = "그림 다운로드 완료"
+            print(text)
+        # ===================================================================
+        else:
+            text = "대기중..."
+            print(text)
 
 
-class Example(QMainWindow, Ui_MainWindow):
-    def __init__(self):
-        super().__init__()
-        self.path = "C:"
-        self.index = None
-        self.setupUi(self)
-        self.setSlot()
-        self.show()
-        QApplication.processEvents()
-        self.timeEdit.setTime(QTime(3,0))
-
-    def start(self):
-        print('11')
-        self.timeCycle=str(self.timeEdit.time().hour())+"_"+str(self.timeEdit.time().minute())
-        self.timeCycle=datetime.datetime.strptime(self.timeCycle,"%H_%M").strftime("%H%M")
-        print('self.timeCycle:',self.timeCycle)
-        self.x = Thread(self, self.timeCycle)
-        self.x.user_signal.connect(self.slot1)  # 사용자 정의 시그널2 슬롯 Connect
-        self.x.start()
-
-    def slot1(self, data1):  # 사용자 정의 시그널1에 connect된 function
-        self.textEdit.append(str(data1))
-
-    def setSlot(self):
-        pass
-
-    def setIndex(self, index):
-        pass
-
-    def quit(self):
-        QCoreApplication.instance().quit()
-
-
-app = QApplication([])
-ex = Example()
-sys.exit(app.exec_())
-
-
-
+    except:
+        print("에러로 한텀쉬기")
+        time.sleep(60 * 10)
+    time.sleep(10)
 
 
 
