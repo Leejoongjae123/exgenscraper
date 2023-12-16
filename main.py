@@ -64,6 +64,7 @@ import pprint
 import boto3
 import urllib3
 
+
 def GetGangNam():
     print("지역 크롤링하기 시작")
     dataList = []

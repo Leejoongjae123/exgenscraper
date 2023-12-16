@@ -1,0 +1,13 @@
+email
+datetime
+time
+random
+requests
+bs4
+gspread
+oauth2client
+openpyxl
+firebase_admin
+urllib
+boto3
+google-analytics-data
