@@ -44,7 +44,9 @@ def GetGangNam():
     print("지역 크롤링하기 시작")
     dataList = []
     regions = ['서울', '경기|인천', '대전|충청', '대구|경북', '부산|경남', '광주|전라', '강원도|제주']
-    for region in regions:
+    for index,region in enumerate(regions):
+        print("{}번째 지역 시작".format(index))
+
         cookies = {
             'PHPSESSID': '4984k0pnhtiujtlof8d0981rv1',
             '_ga': 'GA1.1.451543972.1684079343',
@@ -86,6 +88,8 @@ def GetGangNam():
             cookies=cookies,
             headers=headers,
         )
+        response.raise_for_status()
+        print("status:",response.status_code)
         soup = BeautifulSoup(response.text, 'lxml')
         liTags = soup.find_all('li', attrs={'class': 'list_item'})
         for liTag in liTags:

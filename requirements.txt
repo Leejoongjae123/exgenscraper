@@ -1,7 +1,3 @@
-email
-datetime
-time
-random
 requests
 bs4
 gspread
