@@ -122,8 +122,11 @@ def GetGangNam():
                 imageUrl = ""
             regex = re.compile("id=\d+")
             myIndex = regex.findall(url)[0].replace("id=", "")
+
+            regiDate=datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+            regiTimestamp=int(datetime.datetime.now().timestamp())
             data = {'platform': '강남맛집', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "강남맛집_" + myIndex}
+                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "강남맛집_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
             print(data)
             dataList.append(data)
         print("총갯수:", len(dataList))
@@ -205,8 +208,10 @@ def GetGangNam():
             imageUrl = ""
         regex = re.compile("id=\d+")
         myIndex = regex.findall(url)[0].replace("id=", "")
+        regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+        regiTimestamp = int(datetime.datetime.now().timestamp())
         data = {'platform': '강남맛집', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "강남맛집_" + myIndex}
+                'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "강남맛집_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
         print(data)
         dataList.append(data)
         print("총갯수:", len(dataList))
@@ -285,9 +290,10 @@ def GetNolowa():
 
             regex = re.compile("it_id=\d+")
             myIndex = regex.findall(url)[0].replace("it_id=", "")
-
+            regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+            regiTimestamp = int(datetime.datetime.now().timestamp())
             data = {'platform': '놀러와체험단', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "놀러와체험단_" + myIndex}
+                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "놀러와체험단_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
             print(data)
             dataList.append(data)
         time.sleep(0.5)
@@ -363,8 +369,11 @@ def GetNolowa():
             regex = re.compile("it_id=\d+")
             myIndex = regex.findall(url)[0].replace("it_id=", "")
 
+            regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+            regiTimestamp = int(datetime.datetime.now().timestamp())
+
             data = {'platform': '놀러와체험단', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "놀러와체험단_" + myIndex}
+                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "놀러와체험단_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
             print(data)
             dataList.append(data)
         time.sleep(0.5)
@@ -468,8 +477,11 @@ def GetDinnerQueen():
             regex = re.compile("/\d+")
             myIndex = regex.findall(url)[0].replace("/", "")
 
+            regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+            regiTimestamp = int(datetime.datetime.now().timestamp())
+
             data = {'platform': '디너의여왕', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "디너의여왕_" + myIndex}
+                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "디너의여왕_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
             print(data)
             dataList.append(data)
         print("총갯수:", len(dataList))
@@ -550,8 +562,11 @@ def GetDailyView():
             regex = re.compile("it_id=\d+")
             myIndex = regex.findall(url)[0].replace("it_id=", "")
 
+            regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+            regiTimestamp = int(datetime.datetime.now().timestamp())
+
             data = {'platform': '데일리뷰', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "데일리뷰_" + myIndex}
+                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "데일리뷰_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
             print(data)
             dataList.append(data)
         time.sleep(0.5)
@@ -628,8 +643,11 @@ def GetDailyView():
             regex = re.compile("it_id=\d+")
             myIndex = regex.findall(url)[0].replace("it_id=", "")
 
+            regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+            regiTimestamp = int(datetime.datetime.now().timestamp())
+
             data = {'platform': '데일리뷰', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "데일리뷰_" + myIndex}
+                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "데일리뷰_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
             print(data)
             dataList.append(data)
         time.sleep(0.5)
@@ -714,8 +732,12 @@ def GetGaBoJa():
                 print("과거 것은 크롤링 중지")
                 endFlag = True
                 break
+
+            regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+            regiTimestamp = int(datetime.datetime.now().timestamp())
+
             data = {'platform': '가보자체험단', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "가보자체험단_" + myIndex}
+                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "가보자체험단_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
             print(data)
             dataList.append(data)
         if endFlag == True:
@@ -789,8 +811,11 @@ def GetMrBlog():
                 demandCount = result['max_number_of_people']
                 myIndex = result['pk']
 
+                regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+                regiTimestamp = int(datetime.datetime.now().timestamp())
+
                 data = {'platform': '미블', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                        'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "미블_" + myIndex}
+                        'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "미블_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
                 print(data)
                 dataList.append(data)
                 # dataList.append(data)
@@ -860,8 +885,11 @@ def GetOhMyBlog():
                       product.find('div', attrs={'class': 'scrap_box'})['data-appseq']
                 myIndex = product.find('div', attrs={'class': 'scrap_box'})['data-appseq']
 
+                regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+                regiTimestamp = int(datetime.datetime.now().timestamp())
+
                 data = {'platform': '오마이블로그', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                        'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "오마이블로그_" + myIndex}
+                        'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "오마이블로그_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
                 print(data)
                 dataList.append(data)
             print(count, "번째 페이지 완료, 상품수:", len(dataList))
@@ -993,8 +1021,12 @@ def GetSeoulObba():
                     print("마감됨")
                     endFlag = True
                     break
+
+                regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+                regiTimestamp = int(datetime.datetime.now().timestamp())
+
                 data = {'platform': '서울오빠', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                        'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "서울오빠_" + myIndex}
+                        'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "서울오빠_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
                 print(data)
                 dataList.append(data)
             print("상품수는:", len(dataList))
@@ -1067,8 +1099,12 @@ def GetRevu():
                 imageUrl = result['thumbnail']
                 url = 'https://www.revu.net/campaign/' + str(result['id'])
                 myIndex = str(result['id'])
+
+                regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+                regiTimestamp = int(datetime.datetime.now().timestamp())
+
                 data = {'platform': '레뷰', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                        'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "레뷰_" + myIndex}
+                        'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "레뷰_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
                 print(data)
                 dataList.append(data)
             print("데이타갯수:", len(dataList))
@@ -1246,8 +1282,11 @@ def GetReviewPlace():
                 url = 'https://www.reviewplace.co.kr' + item.find('a')['href']
                 myIndex = regex.findall(url)[-1]
 
+                regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+                regiTimestamp = int(datetime.datetime.now().timestamp())
+
                 data = {'platform': '리뷰플레이스', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                        'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "리뷰플레이스_" + myIndex}
+                        'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "리뷰플레이스_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
                 print(data)
                 dataList.append(data)
             print(category, "/", "갯수는:", len(dataList))
@@ -1309,8 +1348,11 @@ def GetChvu():
         if float(dday) < 0:
             break
 
+        regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+        regiTimestamp = int(datetime.datetime.now().timestamp())
+
         data = {'platform': '체험뷰', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "체험뷰_" + myIndex}
+                'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "체험뷰_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
         print(data)
         dataList.append(data)
     print("데이타갯수:", len(dataList))
@@ -1376,8 +1418,12 @@ def GetReviewNote():
 
         url = 'https://www.reviewnote.co.kr/campaigns/{}'.format(str(result['id']))
         myIndex = str(result['id'])
+
+        regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+        regiTimestamp = int(datetime.datetime.now().timestamp())
+
         data = {'platform': '리뷰노트', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "리뷰노트_" + myIndex}
+                'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "리뷰노트_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
         print(data)
         dataList.append(data)
     print("갯수는:", len(dataList))
@@ -1449,8 +1495,11 @@ def GetCloudView():
             if len(reviewTypes) >= 1:
                 title = title + reviewTypes
 
+            regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+            regiTimestamp = int(datetime.datetime.now().timestamp())
+
             data = {'platform': '클라우드리뷰', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "클라우드리뷰_" + myIndex}
+                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "클라우드리뷰_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
             print(data)
             dataList.append(data)
         print("========================================")
@@ -1558,8 +1607,11 @@ def GetTble():
                 dday=""
             print('dday:',dday)
 
+            regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+            regiTimestamp = int(datetime.datetime.now().timestamp())
+
             data = {'platform': '티블', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "티블_" + myIndex}
+                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "티블_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
             # print(data)
             dataList.append(data)
     print("총갯수:", len(dataList))
@@ -1681,8 +1733,8 @@ while True:
     timeNowString = datetime.datetime.now().strftime("%H%M")
     try:
         print("현재타임:",timeNowString,"예약타임:",timeCycle)
-        # if timeNowString == timeCycle or firstFlag==True:
-        if timeNowString == timeCycle:
+        if timeNowString == timeCycle or firstFlag==True:
+
 
             firstFlag=False
             # ---------------GA4 결과 가져오기
