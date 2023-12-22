@@ -4,6 +4,5 @@ gspread
 oauth2client
 openpyxl
 firebase_admin
-urllib
 boto3
 google-analytics-data
