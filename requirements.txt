@@ -6,3 +6,5 @@ openpyxl
 firebase_admin
 boto3
 google-analytics-data
+pandas
+lxml

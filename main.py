@@ -1367,71 +1367,147 @@ def GetReviewNote():
 
     dataList = []
     endFlag = False
+    count=1
+    categorys=["VISIT",'DELIVERY']
+    for category in categorys:
+        cookies = {
+            'token': '',
+        }
 
-    cookies = {
-        '_ga': 'GA1.1.1345229672.1701352846',
-        'token': '',
-        '_ga_XZVSWF43K1': 'GS1.1.1701352845.1.1.1701353347.0.0.0',
-    }
+        headers = {
+            'authority': 'www.reviewnote.co.kr',
+            'accept': 'application/json, text/plain, */*',
+            'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
+            # 'cookie': 'token=',
+            'referer': 'https://www.reviewnote.co.kr/campaigns?channel=&sort=VISIT&categoryId=&category=&location=&pointInterval=&s=&coord=&isPremium=',
+            'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        }
 
-    headers = {
-        'authority': 'www.reviewnote.co.kr',
-        'accept': '*/*',
-        'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
-        # 'cookie': '_ga=GA1.1.1345229672.1701352846; token=; _ga_XZVSWF43K1=GS1.1.1701352845.1.1.1701353347.0.0.0',
-        'if-none-match': 'W/"icdfkhbu42t6v"',
-        'purpose': 'prefetch',
-        'referer': 'https://www.reviewnote.co.kr/',
-        'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-        'x-nextjs-data': '1',
-    }
+        params = {
+            'channel': '',
+            'sort': 'VISIT',
+            'category': '',
+            'categoryId': '',
+            'sidoSelected': '',
+            'gugunSelected': '',
+            'pointInterval': '0|1000000',
+            'q': '',
+            's': '',
+            'coord': '',
+            'isPremium': '',
+            'limit': '10000',
+            'page': 0,
+            'activeOnly': 'true',
+        }
 
-    response = requests.get(
-        'https://www.reviewnote.co.kr/_next/data/WMgmkUgb2Bg03IhoR8n-6/ko/campaigns.json',
-        cookies=cookies,
-        headers=headers,
-    )
-    decoded_content = response.content.decode('utf-8')
-    results = json.loads(decoded_content)['pageProps']['data']
-    # pprint.pprint(results)
+        response = requests.get('https://www.reviewnote.co.kr/api/campaigns', params=params, cookies=cookies,
+                                headers=headers)
+        results=json.loads(response.text)['objects']
 
-    for result in results:
-        # pprint.pprint(result)
-        title = result['title']
-        isBaesong=result['sort']
-        if isBaesong==True:
-            title=title+"(배송형)"
-        region = ""
-        dday = calculate_remaining_days(result['applyEndAt'])
-        if dday <= 0:
-            dday = 9999
-        applyCount = result['applicantCount']
-        demandCount = result['infNum']
-        imageKey = result['imageKey']
-        if imageKey == None:
-            imageUrl = ""
-        else:
-            imageUrl = 'https://www.reviewnote.co.kr/_next/image?url=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Freviewnote-e92d9.appspot.com%2Fo%2Fitems%252F{}%3Falt%3Dmedia&w=1080&q=75'.format(
-                result['imageKey'].replace("items/", ""))
+        for result in results:
+            # pprint.pprint(result)
+            title = result['title']
+            if category=="DELIVERY":
+                title=title+"(배송형)"
+            region = ""
 
-        url = 'https://www.reviewnote.co.kr/campaigns/{}'.format(str(result['id']))
-        myIndex = str(result['id'])
+            dday = calculate_remaining_days(result['applyEndAt'])
+            if dday <= 0:
+                dday = 9999
+            if dday==9999:
+                continue
+            applyCount = result['applicantCount']
+            demandCount = result['infNum']
+            imageKey = result['imageKey']
+            if imageKey == None:
+                imageUrl = ""
+            else:
+                imageUrl = 'https://www.reviewnote.co.kr/_next/image?url=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Freviewnote-e92d9.appspot.com%2Fo%2Fitems%252F{}%3Falt%3Dmedia&w=1080&q=75'.format(
+                    result['imageKey'].replace("items/", ""))
 
-        regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
-        regiTimestamp = int(datetime.datetime.now().timestamp())
+            url = 'https://www.reviewnote.co.kr/campaigns/{}'.format(str(result['id']))
+            myIndex = str(result['id'])
 
-        data = {'platform': '리뷰노트', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
-                'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "리뷰노트_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
-        print(data)
-        dataList.append(data)
-    print("갯수는:", len(dataList))
+            regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+            regiTimestamp = int(datetime.datetime.now().timestamp())
 
+            data = {'platform': '리뷰노트', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
+                    'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "리뷰노트_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
+            print(data)
+            dataList.append(data)
+        print("갯수는:", len(dataList))
+    return dataList
+    
+    # cookies = {
+    #     '_ga': 'GA1.1.1345229672.1701352846',
+    #     'token': '',
+    #     '_ga_XZVSWF43K1': 'GS1.1.1701352845.1.1.1701353347.0.0.0',
+    # }
+    #
+    # headers = {
+    #     'authority': 'www.reviewnote.co.kr',
+    #     'accept': '*/*',
+    #     'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
+    #     # 'cookie': '_ga=GA1.1.1345229672.1701352846; token=; _ga_XZVSWF43K1=GS1.1.1701352845.1.1.1701353347.0.0.0',
+    #     'if-none-match': 'W/"icdfkhbu42t6v"',
+    #     'purpose': 'prefetch',
+    #     'referer': 'https://www.reviewnote.co.kr/',
+    #     'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+    #     'sec-ch-ua-mobile': '?0',
+    #     'sec-ch-ua-platform': '"Windows"',
+    #     'sec-fetch-dest': 'empty',
+    #     'sec-fetch-mode': 'cors',
+    #     'sec-fetch-site': 'same-origin',
+    #     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+    #     'x-nextjs-data': '1',
+    # }
+    #
+    # response = requests.get(
+    #     'https://www.reviewnote.co.kr/_next/data/WMgmkUgb2Bg03IhoR8n-6/ko/campaigns.json',
+    #     cookies=cookies,
+    #     headers=headers,
+    # )
+    # decoded_content = response.content.decode('utf-8')
+    # pprint.pprint(decoded_content)
+    # results = json.loads(decoded_content)['pageProps']['data']
+    # # pprint.pprint(results)
+    #
+    # for result in results:
+    #     # pprint.pprint(result)
+    #     title = result['title']
+    #     isBaesong=result['sort']
+    #     if isBaesong==True:
+    #         title=title+"(배송형)"
+    #     region = ""
+    #     dday = calculate_remaining_days(result['applyEndAt'])
+    #     if dday <= 0:
+    #         dday = 9999
+    #     applyCount = result['applicantCount']
+    #     demandCount = result['infNum']
+    #     imageKey = result['imageKey']
+    #     if imageKey == None:
+    #         imageUrl = ""
+    #     else:
+    #         imageUrl = 'https://www.reviewnote.co.kr/_next/image?url=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Freviewnote-e92d9.appspot.com%2Fo%2Fitems%252F{}%3Falt%3Dmedia&w=1080&q=75'.format(
+    #             result['imageKey'].replace("items/", ""))
+    #
+    #     url = 'https://www.reviewnote.co.kr/campaigns/{}'.format(str(result['id']))
+    #     myIndex = str(result['id'])
+    #
+    #     regiDate = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+    #     regiTimestamp = int(datetime.datetime.now().timestamp())
+    #
+    #     data = {'platform': '리뷰노트', 'region': region, 'dday': dday, 'title': title, 'applyCount': applyCount,
+    #             'demandCount': demandCount, 'imageUrl': imageUrl, 'url': url, 'myImage': "리뷰노트_" + myIndex,'regiDate':regiDate,'regiTimestamp':regiTimestamp}
+    #     print(data)
+    #     dataList.append(data)
+    # print("갯수는:", len(dataList))
 
 def GetCloudView():
     dataList = []
@@ -1726,6 +1802,8 @@ def DeleteAllImage():
         resp = s3.Object('exgen', key).delete()
 
 
+
+
 #=====================구동부
 timeCycle="0100"
 timePrev = 0
@@ -1783,6 +1861,7 @@ while True:
 
             timePrev = datetime.datetime.now().timestamp()
             text = "크롤링 시작 / {}".format(timeNowString)
+
 
             try:
                 dataList1 = GetGangNam()  # 강남맛집 검색
@@ -1903,11 +1982,14 @@ while True:
                 text = "티블 크롤링 실패"
             print(text)
 
+            print("더하기")
             totalList = dataList1 + dataList2 + dataList3 + dataList4 + dataList5 + dataList6 + dataList7 + dataList8 + dataList9 + dataList10 + dataList11 + dataList12 + dataList13 + dataList14  # 검색결과를 모두 합친다.
+            # totalList = dataList8
 
-            with open('totalList.json', 'w',encoding='utf-8-sig') as f:
-                json.dump(totalList, f, indent=2,ensure_ascii=False)
+            # with open('totalList.json', 'w',encoding='utf-8-sig') as f:
+            #     json.dump(totalList, f, indent=2,ensure_ascii=False)
 
+            print("저장하기")
             with open('totalList.json', 'w') as f:
                 json.dump(totalList, f, indent=2)
 
@@ -2013,5 +2095,5 @@ while True:
 
 
 
-
+#
 
