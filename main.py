@@ -1809,7 +1809,7 @@ timeCycle="0100"
 timePrev = 0
 InitFirebase()
 print("주기는:", timeCycle)
-firstFlag=True
+firstFlag=False
 while True:
     timeNow = datetime.datetime.now().timestamp()
     timeNowString = datetime.datetime.now().strftime("%H%M")
