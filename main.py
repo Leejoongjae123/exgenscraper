@@ -1983,8 +1983,9 @@ while True:
             print(text)
 
             print("더하기")
-            totalList = dataList1 + dataList2 + dataList3 + dataList4 + dataList5 + dataList6 + dataList7 + dataList8 + dataList9 + dataList10 + dataList11 + dataList12 + dataList13 + dataList14  # 검색결과를 모두 합친다.
-            # totalList = dataList8
+            totalList = dataList1 + dataList2 + dataList3 + dataList4 + dataList5 + dataList6 + dataList7 + dataList8 + \
+                        dataList9 + dataList10 + dataList11 + dataList12 + dataList13 + dataList14  # 검색결과를 모두 합친다.
+            # totalList = dataList8+dataList12
 
             # with open('totalList.json', 'w',encoding='utf-8-sig') as f:
             #     json.dump(totalList, f, indent=2,ensure_ascii=False)
@@ -2095,5 +2096,5 @@ while True:
 
 
 
-#
+
 
